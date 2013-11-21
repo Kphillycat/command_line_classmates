@@ -1,6 +1,7 @@
 #require the libraries we need
 require 'open-uri' #open the file on the internet
 require 'nokogiri' #line10
+require 'debugger'
 
 class Scraper
 	attr_reader :html
@@ -19,12 +20,18 @@ class Scraper
 
 	def get_students_blogs
 		#href attribute <html element attributes (=)
+		blog_url = html.search("ul.social a.blog")
+		blog_url_array = []
+		
+		blog_url.each do |index|
+			blog_url_array << index["href"]
+		end
+		blog_url_array
 
 	end
 
 	def get_students_twitter
 		twitter_url = html.search("ul.social")
-		twitter_url.text
 		all_the_twitters = twitter_url.text.gsub(/\s+/, " ").strip.scan(/@\w+\b/)
 	end
 
@@ -33,7 +40,7 @@ end
 #Test that you succesfully get stuff from the internet
 my_scraper = Scraper.new("http://flatironschool-bk.herokuapp.com/")
 
-print my_scraper.get_students_twitter
+puts my_scraper.get_students_blogs
 
 #My folder
 # -> sub-folder
