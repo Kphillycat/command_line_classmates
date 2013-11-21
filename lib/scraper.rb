@@ -12,13 +12,18 @@ class Scraper
 		#Make instance variables to store things for the class.
 	end
 
-	def get_students_names
+	def get_name
 		#not instance variable, method cuz of :html attr_reader
-		all_the_h3s = html.search("h3") #search returns back the tags and everything inside of it "a" all the <a>s. Return a a html object to all_the_h3s.
-		all_the_h3s.text #.text is a method that gives the content of the tag. Can be called on the special Nokogiri object. Returns a object of String. 
+		#all_the_h3s = html.search("h3") #search returns back the tags and everything inside of it "a" all the <a>s. Return a a html object to all_the_h3s.
+		#all_the_h3s.text #.text is a method that gives the content of the tag. Can be called on the special Nokogiri object. Returns a object of String. 
+		
+		all_the_h3s = @html.search("h3").to_s.gsub(" ", "*").gsub("</h3>", "<h3>").gsub("<h3>", " ").split
+    	all_the_h3s.collect do |name|
+      		name.gsub("*", " ")
+    	end
 	end
 
-	def get_students_blogs
+	def get_blog
 		#href attribute <html element attributes (=)
 		blog_url = html.search("ul.social a.blog")
 		blog_url_array = []
@@ -30,7 +35,7 @@ class Scraper
 
 	end
 
-	def get_students_twitter
+	def get_twitter
 		twitter_url = html.search("ul.social")
 		all_the_twitters = twitter_url.text.gsub(/\s+/, " ").strip.scan(/@\w+\b/)
 	end
@@ -40,7 +45,7 @@ end
 #Test that you succesfully get stuff from the internet
 my_scraper = Scraper.new("http://flatironschool-bk.herokuapp.com/")
 
-puts my_scraper.get_students_blogs
+puts my_scraper.get_name
 
 #My folder
 # -> sub-folder
