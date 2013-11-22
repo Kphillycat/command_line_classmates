@@ -37,6 +37,17 @@ class Scraper
 
 	def get_twitter
 		twitter_url = html.search("ul.social")
+		twitter_url_array = []
+		twitter_url.each do |twitter_almost|
+			if twitter_almost.search(".twitter")[0].nil?
+			 	twitter_url_array << "none"
+			 else
+				twitter_url_array << twitter_almost.search(".twitter")[0]["href"]
+			end
+
+			
+		end
+
 		all_the_twitters = twitter_url.text.gsub(/\s+/, " ").strip.scan(/@\w+\b/)
 	end
 
@@ -45,7 +56,7 @@ end
 #Test that you succesfully get stuff from the internet
 my_scraper = Scraper.new("http://flatironschool-bk.herokuapp.com/")
 
-puts my_scraper.get_name
+puts my_scraper.get_twitter.inspect
 
 #My folder
 # -> sub-folder
