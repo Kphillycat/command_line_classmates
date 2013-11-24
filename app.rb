@@ -2,46 +2,27 @@ require './lib/student.rb'
 require './lib/scraper.rb'
 require 'launchy'
 
-
-def launch_twitter(name, students)	
-	students.each do |student|
-		if name == student.name
-			if student.twitter_url == "none"
-				puts "Sorry no twitter to launch for #{name} =("
+def launch_page(student_name, page_type, students_array)
+ 	students_array.each do |student|
+ 		url = page_type == "blog" ? student.blog_url : student.twitter_url
+		if student_name == student.name 
+			if url == "none"
+				puts "Sorry no #{page_type} to launch for #{student_name} =("
 				return
 			else
-				puts "Launching #{name}'s twitter at #{student.twitter_url}"
+				puts "Launching #{student_name}'s #{page_type} at #{url}"
 				5.times do
 					print "."
 					sleep(0.5)
 				end
 				puts "Here we GO! Prepare to be amazed!"
-				sleep(0.5)
-				Launchy.open(student.twitter_url)
+				sleep(1) #Dramatic pause
+				Launchy.open(url)
 			end
 		end
 	end	
 end
 
-def launch_blog(name, students)
-	students.each do |student|
-		if name == student.name
-			if student.blog_url == "none"
-				puts "Sorry no blog to launch for #{name} =("
-				return
-			else
-				puts "Launching #{name}'s blog at #{student.blog_url}"
-				5.times do
-					print "."
-					sleep(0.5)
-				end
-				puts "Here we GO! Prepare to be amazed!"
-				sleep(1)
-				Launchy.open(student.blog_url)
-			end
-		end
-	end	
-end
 
 def get_user_input(students_array, names)
 	puts "Which students's web page would you like to explore? (r for random)?"
@@ -56,9 +37,9 @@ def get_user_input(students_array, names)
 	launch_choice = gets.chomp.downcase
 
 	if launch_choice == "b"
-		launch_blog(student_name, students_array)
+		launch_page(student_name, "blog", students_array)
 	elsif launch_choice == "t"
-		launch_twitter(student_name, students_array)
+		launch_page(student_name, "twitter", students_array)
 	end
 
 end
@@ -78,6 +59,8 @@ def play(students_array, names)
 		ans = gets.chomp.downcase
 	end while ans == "y"
 end
+
+#--------------------------^Blueprint^----------------------
 
 my_scraper = Scraper.new("http://flatironschool-bk.herokuapp.com/")
 names = my_scraper.get_names
