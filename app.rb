@@ -71,17 +71,20 @@ def create_students(names, blogs, twitters)
 	students
 end
 
+def play(students_array, names)
+	begin 
+		get_user_input(students_array, names)
+		puts "Wanna give it another go? (y/n)"
+		ans = gets.chomp.downcase
+	end while ans == "y"
+end
+
 my_scraper = Scraper.new("http://flatironschool-bk.herokuapp.com/")
 names = my_scraper.get_names
 blogs = my_scraper.get_blogs
 twitters = my_scraper.get_twitters
-
 students_array = create_students(names, blogs, twitters)
-get_user_input(students_array,names)
 
+play(students_array,names)
 
-
-
-
-
-
+puts "Thanks for playing!"
