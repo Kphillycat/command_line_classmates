@@ -1,6 +1,7 @@
 require './lib/student.rb'
 require './lib/scraper.rb'
 require 'launchy'
+require 'debugger'
 
 def launch_page(student_name, page_type, students_array)
  	students_array.each do |student|
@@ -15,6 +16,7 @@ def launch_page(student_name, page_type, students_array)
 					print "."
 					sleep(0.5)
 				end
+				debugger
 				puts "Here we GO! Prepare to be amazed!"
 				sleep(1) #Dramatic pause
 				Launchy.open(url)

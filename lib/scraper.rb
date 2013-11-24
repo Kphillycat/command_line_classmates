@@ -39,6 +39,8 @@ class Scraper
 
 end
 
+#Didn't abstract get_twitters and get_blogs since I thought a more general method might not scale to other types of elements
+
 #Test that you succesfully get stuff from the internet
 # my_scraper = Scraper.new("http://flatironschool-bk.herokuapp.com/")
 # puts my_scraper.get_twitters.inspect
