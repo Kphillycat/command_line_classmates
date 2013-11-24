@@ -1,11 +1,19 @@
 require './lib/student.rb'
 require './lib/scraper.rb'
+require 'launchy'
 
 
 def launch_twitter(name, students)	
 	students.each do |student|
 		if name == student.name
-			return student.twitter_url
+			puts "Launching #{student.twitter_url}"
+			5.times do
+				print "."
+				sleep(0.5)
+			end
+			puts "Here we GO!"
+			sleep(0.5)
+			Launchy.open(student.twitter_url)
 		end
 	end	
 end
@@ -13,7 +21,14 @@ end
 def launch_blog(name, students)
 	students.each do |student|
 		if name == student.name
-			return student.blog_url
+			puts "Launching #{student.blog_url}"
+			5.times do
+				print "."
+				sleep(0.5)
+			end
+			puts "Here we GO!"
+			sleep(0.5)
+			Launchy.open(student.blog_url)
 		end
 	end	
 end
@@ -30,6 +45,11 @@ students = []
 	students << Student.new(names[i],blogs[i],twitters[i])
 end
 
-puts students[0].name
+puts "Students name (r for random)?"
+student_name = gets.chomp
+if student_name == "r"
+	student_name = names.sample
+end
+launch_blog(student_name, students)
 
 

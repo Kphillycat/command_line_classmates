@@ -10,7 +10,7 @@ require_relative '../lib/student.rb'
 describe "#launch_twitter" do
 	test_students = []
 	test_students << Student.new("Keith","KDizzle","Kphillycat")
-	#Initial tests just for return values
+	#Initial tests just for return values, won't work with launchy
 	it "should return a given student's twitter" do
 		expect(launch_twitter("Keith", test_students)).to eq("Kphillycat")
 	end
@@ -19,7 +19,7 @@ end
 describe "#launch_blog" do
 	test_students = []
 	test_students << Student.new("Keith","KDizzle","Kphillycat")
-	#Initial tests just for return values
+	#Initial tests just for return values, won't work with launchy
 	it "should return a given student's blog" do
 		expect(launch_blog("Keith", test_students)).to eq("KDizzle")
 	end
