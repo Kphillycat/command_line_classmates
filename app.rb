@@ -16,7 +16,6 @@ def launch_page(student_name, page_type, students_array)
 					print "."
 					sleep(0.5)
 				end
-				debugger
 				puts "Here we GO! Prepare to be amazed!"
 				sleep(1) #Dramatic pause
 				Launchy.open(url)
@@ -25,12 +24,23 @@ def launch_page(student_name, page_type, students_array)
 	end	
 end
 
+def error_check(names, student_name)
+	begin 
+		puts "Sorry looks like you've misspelled the students name. Please enter again. (r for random)"
+		student_name = gets.chomp
+		name_check = names.include? student_name
+	end until name_check || student_name.downcase == "r"
+	student_name
+end
 
 def get_user_input(students_array, names)
 	puts "Which students's web page would you like to explore? (r for random)?"
 	student_name = gets.chomp
 
-	if student_name == "r"
+	#Error checking for students names
+	student_name = error_check(names,student_name) unless names.include? student_name
+
+	if student_name.downcase == "r"
 		student_name = names.sample
 		puts "Awesome! You're in luck #{student_name} was chosen at random just for you!"
 	end
