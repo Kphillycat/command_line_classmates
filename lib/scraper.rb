@@ -12,51 +12,36 @@ class Scraper
 		#Make instance variables to store things for the class.
 	end
 
-	def get_name
-		#not instance variable, method cuz of :html attr_reader
-		#all_the_h3s = html.search("h3") #search returns back the tags and everything inside of it "a" all the <a>s. Return a a html object to all_the_h3s.
-		#all_the_h3s.text #.text is a method that gives the content of the tag. Can be called on the special Nokogiri object. Returns a object of String. 
+	def get_names
+  		all_the_h3s = html.search("h3")
+  		all_the_h3s.collect do |h3|
+  			h3.text
+  		end
+	end
+
+	def get_blogs
+		the_students = html.search(".student")
 		
-		all_the_h3s = @html.search("h3").to_s.gsub(" ", "*").gsub("</h3>", "<h3>").gsub("<h3>", " ").split
-    	all_the_h3s.collect do |name|
-      		name.gsub("*", " ")
-    	end
+		the_students.collect do |student|
+			student.search(".blog").empty? ? "none" : student.search(".blog")[0]["href"]
+		end
 	end
 
-	def get_blog
-		#href attribute <html element attributes (=)
-		blog_url = html.search("ul.social a.blog")
-		blog_url_array = []
+	def get_twitters
+		the_students = html.search(".student")
 		
-		blog_url.each do |index|
-			blog_url_array << index["href"]
+		the_students.collect do |student|
+			student.search(".twitter").empty? ? "none" : student.search(".twitter")[0]["href"]
 		end
-		blog_url_array
-
 	end
 
-	def get_twitter
-		twitter_url = html.search("ul.social")
-		twitter_url_array = []
-		twitter_url.each do |twitter_almost|
-			if twitter_almost.search(".twitter")[0].nil?
-			 	twitter_url_array << "none"
-			 else
-				twitter_url_array << twitter_almost.search(".twitter")[0]["href"]
-			end
-
-			
-		end
-
-		all_the_twitters = twitter_url.text.gsub(/\s+/, " ").strip.scan(/@\w+\b/)
-	end
+	# 	all_the_twitters = twitter_url.text.gsub(/\s+/, " ").strip.scan(/@\w+\b/)
 
 end
 
 #Test that you succesfully get stuff from the internet
-my_scraper = Scraper.new("http://flatironschool-bk.herokuapp.com/")
-
-puts my_scraper.get_twitter.inspect
+# my_scraper = Scraper.new("http://flatironschool-bk.herokuapp.com/")
+# puts my_scraper.get_twitters.inspect
 
 #My folder
 # -> sub-folder
